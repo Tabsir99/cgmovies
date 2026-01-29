@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CGMovies - Modern Streaming Website
+
+A modern, cinematic streaming website built with Next.js 16, featuring movies, TV shows, and anime. Features a playful yet sophisticated design with smooth animations and delightful interactions.
+
+## Features
+
+- **Hero Banner Carousel** - Auto-rotating featured content with smooth transitions
+- **Content Rows** - Horizontally scrollable media cards with hover effects
+- **Responsive Design** - Mobile-first, works on all screen sizes
+- **Cinematic Dark Theme** - Premium visual design with gradient accents
+- **Loading Skeletons** - Smooth shimmer animations during data fetching
+- **TMDB Integration** - Real-time movie and TV data from The Movie Database
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Styling**: Tailwind CSS 4
+- **Icons**: Lucide React
+- **API**: TMDB (The Movie Database)
+- **Language**: TypeScript
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+
+- npm, yarn, or pnpm
+
+### TMDB API Key Setup
+
+1. Create an account at [TMDB](https://www.themoviedb.org/)
+2. Go to Settings > API and request an API key
+3. Copy your API key
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <your-repo-url>
+cd cgmovies
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Create a `.env.local` file in the root directory:
+```env
+NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key_here
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Run the development server:
+```bash
+npm run dev
+```
 
-## Learn More
+5. Open [http://localhost:3000](http://localhost:3000)
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/
+│   ├── globals.css      # Global styles & theme
+│   ├── layout.tsx       # Root layout with metadata
+│   └── page.tsx         # Homepage
+├── components/
+│   ├── Header.tsx       # Navigation header
+│   ├── Footer.tsx       # Site footer
+│   ├── HeroBanner.tsx   # Hero carousel
+│   ├── ContentRow.tsx   # Horizontal scroll row
+│   └── MediaCard.tsx    # Individual media card
+└── lib/
+    └── tmdb.ts          # TMDB API utilities & types
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Design System
 
-## Deploy on Vercel
+### Colors
+- **Background**: `#0a0a0f` (Deep dark)
+- **Card**: `#141419` (Elevated surface)
+- **Accent**: `#6366f1` (Indigo)
+- **Gradient**: Indigo to Purple
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Animations
+- Card lift on hover with glow effect
+- Shimmer loading skeletons
+- Fade-in and slide-up entrance animations
+- Smooth carousel transitions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+```bash
+npm run dev     # Start development server
+npm run build   # Build for production
+npm run start   # Start production server
+npm run lint    # Run ESLint
+```
+
+## Coming Soon
+
+- Movie/TV detail pages with modal player
+- Search functionality
+- Genre filtering
+- 23 streaming embed providers
+- Watchlist (localStorage)
+
+## Credits
+
+- Data provided by [TMDB](https://www.themoviedb.org/)
+- Icons by [Lucide](https://lucide.dev/)
+
+## License
+
+MIT
