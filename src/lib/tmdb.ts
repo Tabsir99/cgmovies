@@ -1,6 +1,8 @@
 import {
+  BaseMediaItem,
   MediaItem,
   MovieDetails,
+  SeasonDetails,
   TMDBResponse,
   TVDetails,
 } from "@/types/media";
@@ -105,6 +107,13 @@ export async function getTVDetails(id: number): Promise<TVDetails> {
   });
 }
 
+export async function getSeasonDetails(
+  tvId: number,
+  seasonNumber: number,
+): Promise<SeasonDetails> {
+  return fetchTMDB(`/tv/${tvId}/season/${seasonNumber}`);
+}
+
 // Search
 export async function searchMulti(
   query: string,
@@ -166,7 +175,7 @@ export function getBackdropUrl(
   return `${TMDB_IMAGE_BASE}/${size}${path}`;
 }
 
-export function getTitle(item: MediaItem): string {
+export function getTitle(item: BaseMediaItem | MediaItem): string {
   return (
     item.title ||
     item.name ||
@@ -176,13 +185,13 @@ export function getTitle(item: MediaItem): string {
   );
 }
 
-export function getReleaseYear(item: MediaItem): string {
+export function getReleaseYear(item: BaseMediaItem | MediaItem): string {
   const date = item.release_date || item.first_air_date;
   if (!date) return "";
   return new Date(date).getFullYear().toString();
 }
 
-export function getMediaType(item: MediaItem): "movie" | "tv" {
+export function getMediaType(item: BaseMediaItem | MediaItem): "movie" | "tv" {
   if (item.media_type) return item.media_type;
   return "movie";
 }

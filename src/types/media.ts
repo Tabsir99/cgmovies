@@ -19,6 +19,7 @@ export interface BaseMediaItem {
   genre_ids: number[];
   popularity: number;
   adult?: boolean;
+  media_type?: "movie" | "tv";
 }
 
 export interface ReleaseDate {
@@ -103,6 +104,22 @@ export interface Season {
   season_number: number;
   episode_count: number;
   air_date: string;
+}
+
+export interface Episode {
+  id: number;
+  name: string;
+  overview: string;
+  still_path: string | null;
+  episode_number: number;
+  season_number: number;
+  air_date: string;
+  runtime: number | null;
+  vote_average: number;
+}
+
+export interface SeasonDetails extends Season {
+  episodes: Episode[];
 }
 
 export interface CastMember {
