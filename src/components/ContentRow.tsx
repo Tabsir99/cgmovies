@@ -6,13 +6,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import MediaCard, { MediaCardSkeleton } from "./MediaCard";
-import { MediaItem } from "@/types/media";
+import { BaseMediaItem } from "@/types/media";
 
 const MAX_ITEMS = 10;
 
 interface ContentRowProps {
   title: string;
-  items: MediaItem[];
+  items: BaseMediaItem[];
   href?: string;
 }
 

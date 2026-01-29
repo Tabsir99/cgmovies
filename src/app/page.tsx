@@ -1,6 +1,4 @@
 import { Suspense } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import HeroBanner, { HeroBannerSkeleton } from "@/components/HeroBanner";
 import ContentRow, { ContentRowSkeleton } from "@/components/ContentRow";
 import {
@@ -13,7 +11,8 @@ import {
   getMovieDetails,
   getTVDetails,
 } from "@/lib/tmdb";
-import { MediaItem } from "@/types/media";
+import { getMediaListRoute, ROUTES } from "@/lib/constant";
+import { BaseMediaItem, MediaItem } from "@/types/media";
 
 // Async components for each section
 async function HeroSection() {
@@ -22,7 +21,7 @@ async function HeroSection() {
 
   // Fetch detailed info for each hero item to get runtime and certification
   const detailedItems = await Promise.all(
-    heroItems.map(async (item: MediaItem) => {
+    heroItems.map(async (item: BaseMediaItem) => {
       const mediaType = item.media_type || "movie";
       if (mediaType === "movie") {
         return {
@@ -43,7 +42,7 @@ async function TrendingSection() {
     <ContentRow
       title="Trending Now"
       items={trending.results}
-      href="/trending"
+      href={ROUTES.TRENDING}
     />
   );
 }
@@ -51,7 +50,11 @@ async function TrendingSection() {
 async function PopularMoviesSection() {
   const movies = await getPopularMovies();
   return (
-    <ContentRow title="Popular Movies" items={movies.results} href="/movie" />
+    <ContentRow
+      title="Popular Movies"
+      items={movies.results}
+      href={getMediaListRoute("movie")}
+    />
   );
 }
 
@@ -61,7 +64,7 @@ async function TopRatedMoviesSection() {
     <ContentRow
       title="Top Rated Movies"
       items={movies.results}
-      href="/movie?sort=top_rated"
+      href={getMediaListRoute("movie", "top_rated")}
     />
   );
 }
@@ -72,7 +75,7 @@ async function NowPlayingSection() {
     <ContentRow
       title="In Theaters"
       items={movies.results}
-      href="/movie?sort=now_playing"
+      href={getMediaListRoute("movie", "now_playing")}
     />
   );
 }
@@ -83,7 +86,7 @@ async function PopularTVSection() {
     <ContentRow
       title="Popular TV Shows"
       items={tvShows.results}
-      href="/tv-show"
+      href={getMediaListRoute("tv")}
     />
   );
 }
@@ -94,53 +97,47 @@ async function TopRatedTVSection() {
     <ContentRow
       title="Top Rated TV Shows"
       items={tvShows.results}
-      href="/tv-show?sort=top_rated"
+      href={getMediaListRoute("tv", "top_rated")}
     />
   );
 }
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <>
+      {/* Hero Banner */}
+      <Suspense fallback={<HeroBannerSkeleton />}>
+        <HeroSection />
+      </Suspense>
 
-      <main>
-        {/* Hero Banner */}
-        <Suspense fallback={<HeroBannerSkeleton />}>
-          <HeroSection />
+      {/* Content Sections */}
+      <div className="relative z-10 space-y-2 py-8">
+        <Suspense fallback={<ContentRowSkeleton title="Trending Now" />}>
+          <TrendingSection />
         </Suspense>
 
-        {/* Content Sections */}
-        <div className="relative z-10 space-y-2 py-8">
-          <Suspense fallback={<ContentRowSkeleton title="Trending Now" />}>
-            <TrendingSection />
-          </Suspense>
+        <Suspense fallback={<ContentRowSkeleton title="Popular Movies" />}>
+          <PopularMoviesSection />
+        </Suspense>
 
-          <Suspense fallback={<ContentRowSkeleton title="Popular Movies" />}>
-            <PopularMoviesSection />
-          </Suspense>
+        <Suspense fallback={<ContentRowSkeleton title="In Theaters" />}>
+          <NowPlayingSection />
+        </Suspense>
 
-          <Suspense fallback={<ContentRowSkeleton title="In Theaters" />}>
-            <NowPlayingSection />
-          </Suspense>
+        <Suspense fallback={<ContentRowSkeleton title="Popular TV Shows" />}>
+          <PopularTVSection />
+        </Suspense>
 
-          <Suspense fallback={<ContentRowSkeleton title="Popular TV Shows" />}>
-            <PopularTVSection />
-          </Suspense>
+        <Suspense fallback={<ContentRowSkeleton title="Top Rated Movies" />}>
+          <TopRatedMoviesSection />
+        </Suspense>
 
-          <Suspense fallback={<ContentRowSkeleton title="Top Rated Movies" />}>
-            <TopRatedMoviesSection />
-          </Suspense>
-
-          <Suspense
-            fallback={<ContentRowSkeleton title="Top Rated TV Shows" />}
-          >
-            <TopRatedTVSection />
-          </Suspense>
-        </div>
-      </main>
-
-      <Footer />
-    </div>
+        <Suspense
+          fallback={<ContentRowSkeleton title="Top Rated TV Shows" />}
+        >
+          <TopRatedTVSection />
+        </Suspense>
+      </div>
+    </>
   );
 }

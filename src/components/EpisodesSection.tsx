@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Play, Calendar, Clock } from "lucide-react";
 import { Episode, Season } from "@/types/media";
@@ -51,6 +51,11 @@ export function EpisodesSection({
       setIsLoading(false);
     }
   };
+
+  // Load episodes on mount
+  useEffect(() => {
+    handleSeasonChange(selectedSeason);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (selectableSeasons.length === 0) return null;
 

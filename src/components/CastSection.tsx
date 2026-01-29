@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CastMember, CrewMember } from "@/types/media";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -60,10 +61,13 @@ function CastCard({ member }: { member: CastMember }) {
     : null;
 
   return (
-    <div className="flex flex-col items-center gap-3 w-[120px] flex-shrink-0">
-      <Avatar className="h-24 w-24 ring-2 ring-white/10">
+    <Link
+      href={`/person/${member.id}`}
+      className="flex flex-col items-center gap-3 w-[120px] shrink-0 group"
+    >
+      <Avatar className="h-24 w-24 ring-2 ring-white/10 group-hover:ring-white/30 transition-all">
         {imageUrl ? (
-          <AvatarImage src={imageUrl} alt={member.name} />
+          <AvatarImage src={imageUrl} alt={member.name} className="object-cover" />
         ) : (
           <AvatarFallback className="bg-gradient-to-br from-purple-500 to-pink-500 text-white text-lg font-bold">
             {member.name.charAt(0)}
@@ -72,14 +76,14 @@ function CastCard({ member }: { member: CastMember }) {
       </Avatar>
 
       <div className="text-center w-full">
-        <p className="text-white text-sm font-medium line-clamp-2 leading-tight">
+        <p className="text-white text-sm font-medium line-clamp-2 leading-tight group-hover:text-white/80 transition-colors">
           {member.name}
         </p>
         <p className="text-white/60 text-xs line-clamp-2 mt-1">
           {member.character}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -89,10 +93,13 @@ function CrewCard({ member }: { member: CrewMember }) {
     : null;
 
   return (
-    <div className="flex flex-col items-center gap-3 w-[120px] flex-shrink-0">
-      <Avatar className="h-24 w-24 ring-2 ring-white/10">
+    <Link
+      href={`/person/${member.id}`}
+      className="flex flex-col items-center gap-3 w-[120px] shrink-0 group"
+    >
+      <Avatar className="h-24 w-24 ring-2 ring-white/10 group-hover:ring-white/30 transition-all">
         {imageUrl ? (
-          <AvatarImage src={imageUrl} alt={member.name} />
+          <AvatarImage src={imageUrl} alt={member.name} className="object-cover" />
         ) : (
           <AvatarFallback className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white text-lg font-bold">
             {member.name.charAt(0)}
@@ -101,13 +108,13 @@ function CrewCard({ member }: { member: CrewMember }) {
       </Avatar>
 
       <div className="text-center w-full">
-        <p className="text-white text-sm font-medium line-clamp-2 leading-tight">
+        <p className="text-white text-sm font-medium line-clamp-2 leading-tight group-hover:text-white/80 transition-colors">
           {member.name}
         </p>
         <p className="text-white/60 text-xs line-clamp-2 mt-1">
           {member.job}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }

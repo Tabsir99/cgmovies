@@ -9,6 +9,7 @@ import {
   getMediaType,
   createSlug,
 } from "@/lib/tmdb";
+import { getMediaDetailRoute } from "@/lib/constant";
 
 interface RecommendationsSectionProps {
   recommendations: BaseMediaItem[];
@@ -41,10 +42,11 @@ function RecommendationCard({ item }: { item: BaseMediaItem }) {
   const mediaType = getMediaType(item);
   const posterUrl = getImageUrl(item.poster_path, "w342");
   const slug = createSlug(title, item.id);
+  const href = getMediaDetailRoute(mediaType, slug);
 
   return (
     <Link
-      href={`/${mediaType}/${slug}`}
+      href={href}
       className="group flex-shrink-0 w-[160px] sm:w-[180px]"
     >
       {/* Poster */}

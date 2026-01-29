@@ -2,12 +2,12 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getMovieDetails, getTVDetails, getTitle } from "@/lib/tmdb";
 import { MediaItem, MovieDetails, TVDetails } from "@/types/media";
-import { MediaHero } from "@/components/MediaHero";
 import { TrailersSection } from "@/components/TrailersSection";
 import { CastSection } from "@/components/CastSection";
 import { EpisodesSection } from "@/components/EpisodesSection";
 import { RecommendationsSection } from "@/components/RecommendationsSection";
 import { Separator } from "@/components/ui/separator";
+import { HeroCard } from "@/components/HeroCard";
 
 interface PageProps {
   params: Promise<{
@@ -18,7 +18,7 @@ interface PageProps {
 
 // Extract ID from slug (format: "title-name-123")
 function extractIdFromSlug(slug: string): number {
-  const parts = slug.split('-');
+  const parts = slug.split("-");
   const id = parts[parts.length - 1];
   return parseInt(id, 10);
 }
@@ -81,12 +81,15 @@ export default async function MediaDetailsPage({ params }: PageProps) {
   const recommendations = item.recommendations?.results || [];
 
   return (
-    <main className="min-h-screen bg-black">
+    <>
       {/* Hero Section */}
-      <MediaHero item={item} />
+
+      <div className="relative h-[75vh] min-h-[500px] sm:h-[80vh] lg:h-[95vh] w-full overflow-hidden">
+        <HeroCard item={item} isActive={true} />
+      </div>
 
       {/* Content Sections */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="px-6 sm:px-12 lg:px-16">
         {/* Episodes Section (TV Shows Only) */}
         {type === "tv" && (
           <>
@@ -123,6 +126,6 @@ export default async function MediaDetailsPage({ params }: PageProps) {
           </>
         )}
       </div>
-    </main>
+    </>
   );
 }

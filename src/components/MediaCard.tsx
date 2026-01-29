@@ -13,10 +13,11 @@ import {
   createSlug,
   getGenreNames,
 } from "@/lib/tmdb";
-import { MediaItem } from "@/types/media";
+import { getMediaDetailRoute } from "@/lib/constant";
+import { BaseMediaItem } from "@/types/media";
 
 interface MediaCardProps {
-  item: MediaItem;
+  item: BaseMediaItem;
   priority?: boolean;
 }
 
@@ -31,7 +32,7 @@ const MediaCard = memo(function MediaCard({
   const mediaType = getMediaType(item);
   const posterUrl = getImageUrl(item.poster_path, "w342");
   const slug = createSlug(title, item.id);
-  const href = `/${mediaType}/${slug}`;
+  const href = getMediaDetailRoute(mediaType, slug);
   const rating = item.vote_average?.toFixed(1);
   const genres = getGenreNames(item.genre_ids?.slice(0, 2) || [], mediaType);
 

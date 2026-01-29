@@ -44,3 +44,20 @@ export const TMDB_API_KEY =
   process.env.NEXT_PUBLIC_TMDB_API_KEY || process.env.TMDB_API_KEY;
 export const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 export const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p";
+
+// Route constants
+export const ROUTES = {
+  MOVIE: "/movie",
+  TV: "/tv",
+  TRENDING: "/trending",
+} as const;
+
+// Helper functions for generating routes
+export function getMediaDetailRoute(mediaType: "movie" | "tv", slug: string): string {
+  return `${ROUTES[mediaType.toUpperCase() as "MOVIE" | "TV"]}/${slug}`;
+}
+
+export function getMediaListRoute(mediaType: "movie" | "tv", sort?: string): string {
+  const baseRoute = ROUTES[mediaType.toUpperCase() as "MOVIE" | "TV"];
+  return sort ? `${baseRoute}?sort=${sort}` : baseRoute;
+}

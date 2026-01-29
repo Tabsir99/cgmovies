@@ -41,8 +41,8 @@ async function fetchTMDB<T>(
 export async function getTrending(
   mediaType: "movie" | "tv" | "all" = "all",
   timeWindow: "day" | "week" = "week",
-): Promise<TMDBResponse<MediaItem>> {
-  return await fetchTMDB<TMDBResponse<MediaItem>>(
+): Promise<TMDBResponse<BaseMediaItem>> {
+  return await fetchTMDB<TMDBResponse<BaseMediaItem>>(
     `/trending/${mediaType}/${timeWindow}`,
   );
 }
@@ -50,26 +50,50 @@ export async function getTrending(
 // Movies
 export async function getPopularMovies(
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/movie/popular", { page: page.toString() });
+): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/movie/popular", {
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+  };
 }
 
 export async function getTopRatedMovies(
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/movie/top_rated", { page: page.toString() });
+): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/movie/top_rated", {
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+  };
 }
 
 export async function getUpcomingMovies(
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/movie/upcoming", { page: page.toString() });
+): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/movie/upcoming", {
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+  };
 }
 
 export async function getNowPlayingMovies(
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/movie/now_playing", { page: page.toString() });
+): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/movie/now_playing", {
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+  };
 }
 
 export async function getMovieDetails(id: number): Promise<MovieDetails> {
@@ -79,26 +103,50 @@ export async function getMovieDetails(id: number): Promise<MovieDetails> {
 }
 
 // TV Shows
-export async function getPopularTV(page = 1): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/tv/popular", { page: page.toString() });
+export async function getPopularTV(page = 1): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/tv/popular", {
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+  };
 }
 
 export async function getTopRatedTV(
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/tv/top_rated", { page: page.toString() });
+): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/tv/top_rated", {
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+  };
 }
 
 export async function getOnTheAirTV(
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/tv/on_the_air", { page: page.toString() });
+): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/tv/on_the_air", {
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+  };
 }
 
 export async function getAiringTodayTV(
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/tv/airing_today", { page: page.toString() });
+): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/tv/airing_today", {
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+  };
 }
 
 export async function getTVDetails(id: number): Promise<TVDetails> {
@@ -118,37 +166,65 @@ export async function getSeasonDetails(
 export async function searchMulti(
   query: string,
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
+): Promise<TMDBResponse<BaseMediaItem>> {
   return fetchTMDB("/search/multi", { query, page: page.toString() });
 }
 
 export async function searchMovies(
   query: string,
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/search/movie", { query, page: page.toString() });
+): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/search/movie", {
+    query,
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+  };
 }
 
 export async function searchTV(
   query: string,
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/search/tv", { query, page: page.toString() });
+): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/search/tv", {
+    query,
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+  };
 }
 
 // Discover
 export async function discoverMovies(
   params: Record<string, string> = {},
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/discover/movie", { ...params, page: page.toString() });
+): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/discover/movie", {
+    ...params,
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+  };
 }
 
 export async function discoverTV(
   params: Record<string, string> = {},
   page = 1,
-): Promise<TMDBResponse<MediaItem>> {
-  return fetchTMDB("/discover/tv", { ...params, page: page.toString() });
+): Promise<TMDBResponse<BaseMediaItem>> {
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/discover/tv", {
+    ...params,
+    page: page.toString(),
+  });
+  return {
+    ...response,
+    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+  };
 }
 
 // Utility functions

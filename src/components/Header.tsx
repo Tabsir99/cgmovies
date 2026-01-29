@@ -20,11 +20,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { ROUTES } from "@/lib/constant";
 
 const navLinks = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/movie", label: "Movies", icon: Film },
-  { href: "/tv-show", label: "TV Shows", icon: Tv },
+  { href: ROUTES.MOVIE, label: "Movies", icon: Film },
+  { href: ROUTES.TV, label: "TV Shows", icon: Tv },
   { href: "/anime", label: "Anime", icon: Sparkles },
 ];
 

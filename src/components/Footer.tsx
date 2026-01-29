@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Play } from "lucide-react";
+import { ROUTES } from "@/lib/constant";
 
 const links = [
-  { href: "/movie", label: "Movies" },
-  { href: "/tv-show", label: "TV Shows" },
+  { href: ROUTES.MOVIE, label: "Movies" },
+  { href: ROUTES.TV, label: "TV Shows" },
   { href: "/anime", label: "Anime" },
   { href: "/about", label: "About" },
   { href: "/privacy", label: "Privacy" },
