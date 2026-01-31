@@ -12,16 +12,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getBackdropUrl } from "@/lib/tmdb";
+import { usePlayerStore } from "@/store/playerStore";
 
 interface EpisodesSectionProps {
   seasons: Season[];
   tvId: number;
+  tvTitle: string;
   initialSeasonNumber?: number;
 }
 
 export function EpisodesSection({
   seasons,
   tvId,
+  tvTitle,
   initialSeasonNumber = 1,
 }: EpisodesSectionProps) {
   const [selectedSeason, setSelectedSeason] = useState(
@@ -32,6 +35,7 @@ export function EpisodesSection({
 
   // Filter out season 0 (specials) from the dropdown, but keep in data
   const selectableSeasons = seasons.filter((s) => s.season_number > 0);
+  const totalSeasons = selectableSeasons.length;
 
   // Load episodes when season changes
   const handleSeasonChange = async (seasonNumber: string) => {
@@ -89,7 +93,15 @@ export function EpisodesSection({
       ) : episodes.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {episodes.map((episode) => (
-            <EpisodeCard key={episode.id} episode={episode} />
+            <EpisodeCard
+              key={episode.id}
+              episode={episode}
+              tvId={tvId}
+              tvTitle={tvTitle}
+              seasonNumber={parseInt(selectedSeason)}
+              totalEpisodes={episodes.length}
+              totalSeasons={totalSeasons}
+            />
           ))}
         </div>
       ) : (
@@ -101,13 +113,38 @@ export function EpisodesSection({
   );
 }
 
-function EpisodeCard({ episode }: { episode: Episode }) {
+interface EpisodeCardProps {
+  episode: Episode;
+  tvId: number;
+  tvTitle: string;
+  seasonNumber: number;
+  totalEpisodes: number;
+  totalSeasons: number;
+}
+
+function EpisodeCard({
+  episode,
+  tvId,
+  tvTitle,
+  seasonNumber,
+  totalEpisodes,
+  totalSeasons,
+}: EpisodeCardProps) {
+  const { openTVShow } = usePlayerStore();
+
   const stillUrl = episode.still_path
     ? getBackdropUrl(episode.still_path, "w780")
     : "/placeholder-backdrop.svg";
 
+  const handlePlay = () => {
+    openTVShow(tvId, tvTitle, seasonNumber, episode.episode_number, totalEpisodes, totalSeasons);
+  };
+
   return (
-    <div className="group bg-white/5 rounded-lg overflow-hidden hover:bg-white/10 transition-all cursor-pointer">
+    <div
+      onClick={handlePlay}
+      className="group bg-white/5 rounded-lg overflow-hidden hover:bg-white/10 transition-all cursor-pointer"
+    >
       {/* Episode Still */}
       <div className="relative aspect-video">
         <Image src={stillUrl} alt={episode.name} fill className="object-cover" />

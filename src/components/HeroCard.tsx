@@ -1,19 +1,17 @@
-import Link from "next/link";
 import Image from "next/image";
-import { Play, Info, Plus } from "lucide-react";
+import { Info, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   getTitle,
   getReleaseYear,
   getMediaType,
-  createSlug,
   getGenreNames,
   getCertification,
   getRuntime,
   getBackdropUrl,
 } from "@/lib/tmdb";
-import { getMediaDetailRoute } from "@/lib/constant";
 import { MediaItem, TVDetails } from "@/types/media";
+import { PlayButton } from "@/components/PlayButton";
 
 interface HeroCardProps {
   item: MediaItem;
@@ -25,12 +23,14 @@ export function HeroCard({ item, isActive, className }: HeroCardProps) {
   const title = getTitle(item);
   const year = getReleaseYear(item);
   const mediaType = getMediaType(item);
-  const slug = createSlug(title, item.id);
-  const href = getMediaDetailRoute(mediaType, slug);
   const genres = getGenreNames(item.genre_ids?.slice(0, 3) || [], mediaType);
   const rating = item.vote_average?.toFixed(1);
   const runtime = getRuntime(item);
   const certification = getCertification(item);
+
+  // TV show specific data
+  const totalSeasons = mediaType === "tv" ? (item as TVDetails).number_of_seasons || 1 : 1;
+  const totalEpisodes = mediaType === "tv" ? (item as TVDetails).number_of_episodes || 1 : 1;
 
   return (
     <div
@@ -114,13 +114,13 @@ export function HeroCard({ item, isActive, className }: HeroCardProps) {
 
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-2 mb-4">
-              <Link
-                href={href}
-                className="inline-flex items-center gap-2 px-6 py-2 sm:py-3 max-sm:px-4 max-sm:text-sm rounded-lg bg-white text-black font-bold hover:bg-white/90 transition-colors text-base"
-              >
-                <Play className="h-5 w-5 fill-current" />
-                Watch now
-              </Link>
+              <PlayButton
+                mediaType={mediaType}
+                tmdbId={item.id}
+                title={title}
+                totalSeasons={totalSeasons}
+                totalEpisodes={totalEpisodes}
+              />
 
               <button
                 aria-label="More info"

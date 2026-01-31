@@ -96,6 +96,7 @@ export default async function MediaDetailsPage({ params }: PageProps) {
             <EpisodesSection
               seasons={(item as TVDetails).seasons}
               tvId={mediaId}
+              tvTitle={getTitle(item)}
               initialSeasonNumber={1}
             />
             <Separator className="my-8 bg-white/10" />
