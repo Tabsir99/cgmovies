@@ -36,18 +36,11 @@ export default function ResponsiveDialog({
 
       <Content
         side={side}
-        {...contentProps}
-        className={cn(
-          "max-md:w-full max-h-[90dvh] overflow-y-auto p-4",
-          contentProps?.className,
-        )}
+        showCloseButton={contentProps?.showCloseButton}
+        className={cn(contentProps?.className)}
       >
         {children}
       </Content>
-
-      {props.open && (
-        <div className="fixed top-0 left-0 bg-black/40 w-screen h-screen z-20" />
-      )}
     </Container>
   );
 }

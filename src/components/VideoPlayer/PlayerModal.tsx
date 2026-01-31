@@ -1,39 +1,28 @@
 "use client";
 
 import { useEffect, useCallback, useState } from "react";
-import { ChevronLeft, ChevronRight, Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { usePlayerStore } from "@/store/playerStore";
 import ServerSelector from "./ServerSelector";
-import { Button } from "@/components/ui/button";
+import { EpisodePanel } from "./EpisodePanel";
 import { getMovieEmbedUrl, getTVEmbedUrl } from "@/lib/embed";
 import { cn } from "@/lib/utils";
 import { useShallow } from "zustand/react/shallow";
 import ResponsiveDialog from "../ui/ResponsiveDialog";
 
 export function PlayerModal() {
-  const [
-    isOpen,
-    mediaType,
-    tmdbId,
-    title,
-    season,
-    episode,
-    totalEpisodes,
-    totalSeasons,
-    selectedServer,
-  ] = usePlayerStore(
-    useShallow((state) => [
-      state.isOpen,
-      state.mediaType,
-      state.tmdbId,
-      state.title,
-      state.season,
-      state.episode,
-      state.totalEpisodes,
-      state.totalSeasons,
-      state.selectedServer,
-    ]),
-  );
+  const [isOpen, mediaType, tmdbId, title, season, episode, selectedServer] =
+    usePlayerStore(
+      useShallow((state) => [
+        state.isOpen,
+        state.mediaType,
+        state.tmdbId,
+        state.title,
+        state.season,
+        state.episode,
+        state.selectedServer,
+      ])
+    );
 
   const { close, nextEpisode, previousEpisode } = usePlayerStore.getState();
 
@@ -57,7 +46,7 @@ export function PlayerModal() {
         previousEpisode();
       }
     },
-    [isOpen, mediaType, nextEpisode, previousEpisode],
+    [isOpen, mediaType, nextEpisode, previousEpisode]
   );
 
   useEffect(() => {
@@ -81,92 +70,85 @@ export function PlayerModal() {
     setHasError(true);
   };
 
-
   return (
     <ResponsiveDialog
       open={isOpen}
       onOpenChange={close}
       contentProps={{
         className: cn(
-          "flex flex-col p-0 gap-0 border-white/10 bg-zinc-950",
-          "w-full h-full max-w-full",
-          "sm:w-[90vw] sm:max-h-[95dvh] sm:max-w-full",
+          "flex flex-col p-0 gap-0 border-white/10 bg-zinc-950 overflow-hidden",
+          "w-full h-[85dvh] max-w-full",
+          "md:w-[95vw] md:h-[95dvh] md:max-w-[1400px]"
         ),
+        showCloseButton: false,
       }}
     >
-      <div className="flex items-center justify-between py-3 px-4 border-b border-white/10">
-        <div className="flex items-center gap-3 min-w-0">
-          <h2 className="text-base sm:text-lg font-semibold text-white truncate">
-            {title}
-          </h2>
-          {mediaType === "tv" && (
-            <span className="text-sm text-white/60 shrink-0">
-              S{season} E{episode}
-            </span>
-          )}
-        </div>
+      {/* Header */}
+      <div className="flex items-center justify-between py-3 px-4 border-b border-white/10 shrink-0">
+        <h2 className="text-base sm:text-lg font-semibold text-white truncate">
+          {title}
+        </h2>
         <ServerSelector className="shrink-0 mr-8" />
       </div>
 
-      <div className="relative flex-1 bg-black min-h-0">
-        {isLoading && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black z-10">
-            <Loader2 className="h-10 w-10 text-white/60 animate-spin" />
-            <span className="text-white/60 text-sm">Loading player...</span>
-          </div>
+      {/* Main content area */}
+      <div
+        className={cn(
+          "flex-1 min-h-0 flex",
+          "flex-col",
+          "md:flex-row"
         )}
+      >
+        {/* Video container */}
+        <div
+          className={cn(
+            "relative bg-black",
+            "aspect-video w-full shrink-0",
+            "md:aspect-auto md:flex-1 md:min-w-0"
+          )}
+        >
+          {isLoading && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black z-10">
+              <Loader2 className="h-10 w-10 text-white/60 animate-spin" />
+              <span className="text-white/60 text-sm">Loading player...</span>
+            </div>
+          )}
 
-        {hasError && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center px-4 bg-black z-10">
-            <AlertCircle className="h-10 w-10 text-red-400" />
-            <span className="text-white/80 text-sm">
-              Failed to load player. Try a different server.
-            </span>
+          {hasError && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center px-4 bg-black z-10">
+              <AlertCircle className="h-10 w-10 text-red-400" />
+              <span className="text-white/80 text-sm">
+                Failed to load player. Try a different server.
+              </span>
+            </div>
+          )}
+
+          {embedUrl && (
+            <iframe
+              src={embedUrl}
+              className="absolute inset-0 w-full h-full border-0"
+              allowFullScreen
+              allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+              referrerPolicy="origin"
+              onLoad={handleIframeLoad}
+              onError={handleIframeError}
+            />
+          )}
+        </div>
+
+        {/* Episode panel - only for TV shows */}
+        {mediaType === "tv" && (
+          <div
+            className={cn(
+              "border-white/10 overflow-hidden",
+              "flex-1 min-h-0 border-t",
+              "md:flex-none md:h-full md:w-[280px] md:border-t-0 md:border-l"
+            )}
+          >
+            <EpisodePanel />
           </div>
-        )}
-
-        {embedUrl && (
-          <iframe
-            src={embedUrl}
-            className="absolute inset-0 w-full h-full border-0"
-            allowFullScreen
-            allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-            referrerPolicy="origin"
-            onLoad={handleIframeLoad}
-            onError={handleIframeError}
-          />
         )}
       </div>
-
-      {mediaType === "tv" && (
-        <div className="px-3 py-3 sm:px-4 bg-zinc-900/80 border-t border-white/10 backdrop-blur-sm shrink-0">
-          <div className="flex items-center justify-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={previousEpisode}
-              disabled={season === 1 && episode === 1}
-              className="h-9 w-9 text-white/70 hover:text-white hover:bg-white/10 disabled:opacity-30"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
-
-            <span className="text-sm text-white/70 min-w-[80px] text-center">
-              S{season} E{episode}
-            </span>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={nextEpisode}
-              disabled={season === totalSeasons && episode === totalEpisodes}
-              className="h-9 w-9 text-white/70 hover:text-white hover:bg-white/10 disabled:opacity-30"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
-      )}
     </ResponsiveDialog>
   );
 }

@@ -37,6 +37,7 @@ export interface PlayerState {
   ) => void;
   close: () => void;
   setServer: (server: ServerName) => void;
+  setSeason: (season: number) => void;
   setEpisode: (season: number, episode: number) => void;
   nextEpisode: () => void;
   previousEpisode: () => void;
@@ -93,6 +94,10 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
   setServer: (server) => {
     set({ selectedServer: server });
+  },
+
+  setSeason: (season) => {
+    set({ season, episode: 1 });
   },
 
   setEpisode: (season, episode) => {
