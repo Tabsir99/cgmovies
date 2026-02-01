@@ -78,7 +78,7 @@ export function EpisodePanel() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-zinc-900/50">
+    <div className="flex flex-col h-full min-w-72 bg-zinc-900/50">
       {/* Season Selector */}
       <div className="flex items-center justify-between px-3 py-2 border-b border-white/10 shrink-0">
         <Button

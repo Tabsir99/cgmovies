@@ -6,8 +6,6 @@ import { ServerName } from "@/lib/embed";
 export type MediaType = "movie" | "tv";
 
 export interface PlayerState {
-  isMobile: boolean;
-
   // Modal state
   isOpen: boolean;
 
@@ -33,7 +31,7 @@ export interface PlayerState {
     season: number,
     episode: number,
     totalEpisodes?: number,
-    totalSeasons?: number
+    totalSeasons?: number,
   ) => void;
   close: () => void;
   setServer: (server: ServerName) => void;
@@ -45,7 +43,6 @@ export interface PlayerState {
 
 export const usePlayerStore = create<PlayerState>((set, get) => ({
   // Initial state
-  isMobile: false,
   isOpen: false,
   mediaType: null,
   tmdbId: null,
@@ -70,7 +67,14 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     });
   },
 
-  openTVShow: (tmdbId, title, season, episode, totalEpisodes = 1, totalSeasons = 1) => {
+  openTVShow: (
+    tmdbId,
+    title,
+    season,
+    episode,
+    totalEpisodes = 1,
+    totalSeasons = 1,
+  ) => {
     set({
       isOpen: true,
       mediaType: "tv",

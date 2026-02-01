@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { PlayerModal } from "@/components/VideoPlayer/PlayerModal";
 import "./globals.css";
 import { MobileListener } from "@/components/ui/MobileListener";
+import SearchModal from "@/components/SearchModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -78,6 +79,7 @@ export default function RootLayout({
         </div>
         <PlayerModal />
         <MobileListener />
+        <SearchModal />
       </body>
     </html>
   );

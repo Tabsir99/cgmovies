@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./sheet";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./dialog";
 import React from "react";
 import { cn } from "@/lib/utils";
-import { usePlayerStore } from "@/store/playerStore";
+import { useUIStore } from "@/store/uiStore";
 
 interface ResponsiveDialogProps extends React.ComponentProps<typeof Dialog> {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ export default function ResponsiveDialog({
   title = "Responsive Dialog",
   ...props
 }: ResponsiveDialogProps) {
-  const isMobile = usePlayerStore((state) => state.isMobile);
+  const isMobile = useUIStore((state) => state.isMobile);
 
   const Container = isMobile ? Sheet : Dialog;
   const Content = isMobile ? SheetContent : DialogContent;
@@ -32,13 +32,16 @@ export default function ResponsiveDialog({
   return (
     <Container {...props}>
       {trigger ? <Trigger asChild>{trigger}</Trigger> : null}
-      <Title className="sr-only">{title}</Title>
 
       <Content
         side={side}
         showCloseButton={contentProps?.showCloseButton}
-        className={cn(contentProps?.className)}
+        className={cn(
+          "flex flex-col gap-0 p-0 overflow-hidden md:max-w-[90vw] h-[85dvh]",
+          contentProps?.className,
+        )}
       >
+        <Title className="sr-only">{title}</Title>
         {children}
       </Content>
     </Container>
