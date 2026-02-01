@@ -16,12 +16,10 @@ export const metadata: Metadata = {
   description: "Browse popular, top rated, now playing, and upcoming movies",
 };
 
-// Hero section with detailed movie info
 async function HeroSection() {
   const movies = await getTopRatedMovies();
   const heroItems = movies.results.slice(0, 5);
 
-  // Fetch detailed info for each hero item
   const detailedItems = await Promise.all(
     heroItems.map(async (item: BaseMediaItem) => ({
       ...(await getMovieDetails(item.id)),
@@ -32,7 +30,6 @@ async function HeroSection() {
   return <HeroBanner items={detailedItems} />;
 }
 
-// Async components for each section
 async function PopularMoviesSection() {
   const movies = await getPopularMovies();
   return <ContentRow title="Popular Movies" items={movies.results} />;
@@ -56,12 +53,10 @@ async function UpcomingSection() {
 export default function MoviePage() {
   return (
     <>
-      {/* Hero Banner */}
       <Suspense fallback={<HeroBannerSkeleton />}>
         <HeroSection />
       </Suspense>
 
-      {/* Content Sections */}
       <div className="space-y-2 py-8">
         <Suspense fallback={<ContentRowSkeleton title="Popular Movies" />}>
           <PopularMoviesSection />

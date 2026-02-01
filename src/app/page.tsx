@@ -14,12 +14,10 @@ import {
 import { getMediaListRoute, ROUTES } from "@/lib/constant";
 import { BaseMediaItem } from "@/types/media";
 
-// Async components for each section
 async function HeroSection() {
   const trending = await getTrending("all", "week");
   const heroItems = trending.results.slice(0, 5);
 
-  // Fetch detailed info for each hero item to get runtime and certification
   const detailedItems = await Promise.all(
     heroItems.map(async (item: BaseMediaItem) => {
       const mediaType = item.media_type || "movie";
@@ -109,12 +107,10 @@ async function TopRatedTVSection() {
 export default function HomePage() {
   return (
     <>
-      {/* Hero Banner */}
       <Suspense fallback={<HeroBannerSkeleton />}>
         <HeroSection />
       </Suspense>
 
-      {/* Content Sections */}
       <div className="relative z-10 space-y-2 py-8 bg-background/60 backdrop-blur-sm">
         <Suspense fallback={<ContentRowSkeleton title="Trending Now" />}>
           <TrendingSection />

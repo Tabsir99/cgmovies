@@ -1,115 +1,95 @@
-# CGMovies - Modern Streaming Website
+# CGMovies
 
-A modern, cinematic streaming website built with Next.js 16, featuring movies, TV shows, and anime. Features a playful yet sophisticated design with smooth animations and delightful interactions.
+A modern streaming platform built with Next.js 16, featuring movies, TV shows, and anime.
 
 ## Features
 
-- **Hero Banner Carousel** - Auto-rotating featured content with smooth transitions
-- **Content Rows** - Horizontally scrollable media cards with hover effects
-- **Responsive Design** - Mobile-first, works on all screen sizes
-- **Cinematic Dark Theme** - Premium visual design with gradient accents
-- **Loading Skeletons** - Smooth shimmer animations during data fetching
-- **TMDB Integration** - Real-time movie and TV data from The Movie Database
+- **Hero Banner** - Featured content carousel with auto-rotation
+- **Browse Pages** - Dedicated pages for Movies, TV Shows, and Anime
+- **Detail Pages** - Full media info with cast, trailers, and recommendations
+- **Video Player** - Modal player with multiple streaming providers
+- **Episode Browser** - Season and episode selection for TV shows
+- **Search** - Live search with instant results
+- **Responsive** - Works seamlessly on desktop and mobile
 
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router)
 - **Styling**: Tailwind CSS 4
+- **State**: Zustand
+- **Data Fetching**: SWR
 - **Icons**: Lucide React
-- **API**: TMDB (The Movie Database)
-- **Language**: TypeScript
+- **API**: TMDB
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js 18+
-- npm, yarn, or pnpm
+- TMDB API key
 
-### TMDB API Key Setup
+### Setup
 
-1. Create an account at [TMDB](https://www.themoviedb.org/)
-2. Go to Settings > API and request an API key
-3. Copy your API key
-
-### Installation
-
-1. Clone the repository:
+1. Clone and install:
 ```bash
 git clone <your-repo-url>
 cd cgmovies
-```
-
-2. Install dependencies:
-```bash
 npm install
 ```
 
-3. Create a `.env.local` file in the root directory:
+2. Create `.env.local`:
 ```env
-NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key_here
+NEXT_PUBLIC_TMDB_API_KEY=your_api_key
 ```
 
-4. Run the development server:
+3. Run:
 ```bash
 npm run dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000)
 
 ## Project Structure
 
 ```
 src/
 ├── app/
-│   ├── globals.css      # Global styles & theme
-│   ├── layout.tsx       # Root layout with metadata
-│   └── page.tsx         # Homepage
+│   ├── [type]/[slug]/    # Dynamic detail pages
+│   ├── anime/            # Anime section
+│   ├── movie/            # Movies browse
+│   ├── tv/               # TV shows browse
+│   └── page.tsx          # Homepage
 ├── components/
-│   ├── Header.tsx       # Navigation header
-│   ├── Footer.tsx       # Site footer
-│   ├── HeroBanner.tsx   # Hero carousel
-│   ├── ContentRow.tsx   # Horizontal scroll row
-│   └── MediaCard.tsx    # Individual media card
-└── lib/
-    └── tmdb.ts          # TMDB API utilities & types
+│   ├── ui/               # Base UI components
+│   ├── VideoPlayer/      # Player modal & controls
+│   ├── SearchModal.tsx   # Search interface
+│   ├── HeroBanner.tsx    # Hero carousel
+│   ├── ContentRow.tsx    # Media row
+│   └── MediaCard.tsx     # Media card
+├── lib/
+│   ├── tmdb.ts           # TMDB API
+│   ├── embed.ts          # Streaming providers
+│   └── constant.ts       # App constants
+├── store/
+│   ├── playerStore.ts    # Player state
+│   └── uiStore.ts        # UI state
+└── types/
+    └── media.ts          # Type definitions
 ```
-
-## Design System
-
-### Colors
-- **Background**: `#0a0a0f` (Deep dark)
-- **Card**: `#141419` (Elevated surface)
-- **Accent**: `#6366f1` (Indigo)
-- **Gradient**: Indigo to Purple
-
-### Animations
-- Card lift on hover with glow effect
-- Shimmer loading skeletons
-- Fade-in and slide-up entrance animations
-- Smooth carousel transitions
 
 ## Scripts
 
 ```bash
-npm run dev     # Start development server
-npm run build   # Build for production
-npm run start   # Start production server
-npm run lint    # Run ESLint
+npm run dev     # Development
+npm run build   # Production build
+npm run start   # Production server
+npm run lint    # Lint check
 ```
-
-## Coming Soon
-
-- Movie/TV detail pages with modal player
-- Search functionality
-- Genre filtering
-- 23 streaming embed providers
-- Watchlist (localStorage)
 
 ## Credits
 
-- Data provided by [TMDB](https://www.themoviedb.org/)
-- Icons by [Lucide](https://lucide.dev/)
+- Data: [TMDB](https://www.themoviedb.org/)
+- Icons: [Lucide](https://lucide.dev/)
 
 ## License
 

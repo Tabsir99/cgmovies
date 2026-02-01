@@ -39,7 +39,6 @@ const MediaCard = memo(function MediaCard({
   return (
     <Link href={href} className="group block">
       <div className="media-card relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-muted">
-        {/* Poster Image */}
         {!imageError ? (
           <Image
             src={posterUrl}
@@ -56,7 +55,6 @@ const MediaCard = memo(function MediaCard({
           </div>
         )}
 
-        {/* Rating - top right */}
         {rating && parseFloat(rating) > 0 && (
           <div className="absolute top-2 right-2 flex items-center gap-1 rounded bg-black/70 px-1.5 py-0.5">
             <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
@@ -64,10 +62,8 @@ const MediaCard = memo(function MediaCard({
           </div>
         )}
 
-        {/* Hover Overlay with Info */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <div className="absolute inset-x-0 bottom-0 p-3">
-            {/* Genres */}
             {genres.length > 0 && (
               <div className="flex flex-wrap gap-1 mb-2">
                 {genres.map((genre) => (
@@ -81,7 +77,6 @@ const MediaCard = memo(function MediaCard({
               </div>
             )}
 
-            {/* Overview */}
             {item.overview && (
               <p className="text-xs text-white/80 line-clamp-3 leading-relaxed">
                 {item.overview}
@@ -91,7 +86,6 @@ const MediaCard = memo(function MediaCard({
         </div>
       </div>
 
-      {/* Title & Meta - below card */}
       <div className="mt-2 px-0.5">
         <h3 className="text-sm font-medium text-foreground line-clamp-1">
           {title}
@@ -111,7 +105,6 @@ const MediaCard = memo(function MediaCard({
 
 export default MediaCard;
 
-// Skeleton for loading states
 export function MediaCardSkeleton() {
   return (
     <div>

@@ -55,9 +55,7 @@ export default function Header() {
     >
       <div className="mx-auto px-4 sm:px-6 lg:px-20">
         <div className="flex h-16 items-center justify-between">
-          {/* Left side: Logo + Navigation */}
           <div className="flex items-center gap-8">
-            {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-primary to-primary/80 shadow-lg shadow-primary/25 transition-all duration-200 group-hover:scale-105 group-hover:shadow-primary/40">
                 <Play className="h-4 w-4 text-primary-foreground fill-current" />
@@ -67,7 +65,6 @@ export default function Header() {
               </span>
             </Link>
 
-            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => {
                 const active = isActive(link.href);
@@ -96,9 +93,7 @@ export default function Header() {
             </nav>
           </div>
 
-          {/* Right side: Search + Mobile Menu */}
           <div className="flex items-center gap-2">
-            {/* Search Button */}
             <Button
               variant="ghost"
               size="sm"
@@ -112,7 +107,6 @@ export default function Header() {
               </kbd>
             </Button>
 
-            {/* Mobile Search Icon */}
             <Button
               variant="ghost"
               size="icon"
@@ -123,7 +117,6 @@ export default function Header() {
               <span className="sr-only">Search</span>
             </Button>
 
-            {/* Mobile Menu */}
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button

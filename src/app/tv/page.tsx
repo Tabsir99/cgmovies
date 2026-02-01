@@ -16,12 +16,10 @@ export const metadata: Metadata = {
   description: "Browse popular, top rated, on the air, and airing today TV shows",
 };
 
-// Async components for each section
 async function HeroSection() {
   const popular = await getPopularTV();
   const heroItems = popular.results.slice(0, 5);
 
-  // Fetch detailed info for each hero item
   const detailedItems = await Promise.all(
     heroItems.map(async (item: BaseMediaItem) => ({
       ...(await getTVDetails(item.id)),
@@ -55,12 +53,10 @@ async function AiringTodaySection() {
 export default function TVPage() {
   return (
     <>
-      {/* Hero Banner */}
       <Suspense fallback={<HeroBannerSkeleton />}>
         <HeroSection />
       </Suspense>
 
-      {/* Content Sections */}
       <div className="space-y-2 py-8">
         <Suspense fallback={<ContentRowSkeleton title="Popular TV Shows" />}>
           <PopularTVSection />
