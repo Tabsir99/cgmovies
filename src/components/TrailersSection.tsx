@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Play } from "lucide-react";
 import { Video } from "@/types/media";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -12,7 +11,7 @@ export function TrailersSection({ videos }: TrailersSectionProps) {
   const trailers = videos.filter(
     (video) =>
       video.site === "YouTube" &&
-      (video.type === "Trailer" || video.type === "Teaser")
+      (video.type === "Trailer" || video.type === "Teaser"),
   );
 
   if (trailers.length === 0) return null;
@@ -45,11 +44,11 @@ function TrailerCard({ video }: { video: Video }) {
     >
       {/* Thumbnail */}
       <div className="relative aspect-video">
-        <Image
+        <img
           src={thumbnailUrl}
           alt={video.name}
-          fill
-          className="object-cover"
+          loading="lazy"
+          className="object-cover w-full h-full"
         />
 
         {/* Play Button Overlay */}

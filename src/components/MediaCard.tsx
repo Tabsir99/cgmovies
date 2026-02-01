@@ -1,7 +1,6 @@
 "use client";
 
 import { memo, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -18,13 +17,9 @@ import { BaseMediaItem } from "@/types/media";
 
 interface MediaCardProps {
   item: BaseMediaItem;
-  priority?: boolean;
 }
 
-const MediaCard = memo(function MediaCard({
-  item,
-  priority = false,
-}: MediaCardProps) {
+const MediaCard = memo(function MediaCard({ item }: MediaCardProps) {
   const [imageError, setImageError] = useState(false);
 
   const title = getTitle(item);
@@ -40,12 +35,11 @@ const MediaCard = memo(function MediaCard({
     <Link href={href} className="group block">
       <div className="media-card relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-muted">
         {!imageError ? (
-          <Image
+          <img
             src={posterUrl}
             alt={title}
-            fill
-            priority={priority}
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            className="object-cover transition-transform duration-300 group-hover:scale-105 w-full h-full"
             sizes="(max-width: 640px) 150px, (max-width: 1024px) 170px, 185px"
             onError={() => setImageError(true)}
           />

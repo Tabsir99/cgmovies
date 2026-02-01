@@ -4,16 +4,23 @@ import { useEffect } from "react";
 
 export function MobileListener() {
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      useUIStore.setState({ isMobile: e.matches });
+    const updateMobileState = () => {
+      const narrowViewport = window.matchMedia("(max-width: 768px)").matches;
+      const touchDevice = window.matchMedia("(pointer: coarse)").matches;
+      const isMobile = narrowViewport || touchDevice;
+      useUIStore.setState({ isMobile });
     };
 
-    useUIStore.setState({ isMobile: mediaQuery.matches });
+    updateMobileState();
 
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    const mediaQuery = window.matchMedia(
+      "(max-width: 768px), (pointer: coarse)",
+    );
+    mediaQuery.addEventListener("change", updateMobileState);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateMobileState);
+    };
   }, []);
 
   return null;

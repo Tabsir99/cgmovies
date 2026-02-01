@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Search, Star, Film, Tv, Loader2, X, TrendingUp } from "lucide-react";
 import ResponsiveDialog from "@/components/ui/ResponsiveDialog";
@@ -212,11 +211,10 @@ function SearchResultItem({ item, onClick }: SearchResultItemProps) {
       {/* Poster */}
       <div className="relative w-16 h-24 shrink-0 rounded-lg overflow-hidden bg-muted shadow-sm">
         {!imageError && item.poster_path ? (
-          <Image
+          <img
             src={posterUrl}
             alt={title}
-            fill
-            className="object-cover"
+            className="object-cover w-full h-full"
             sizes="64px"
             onError={() => setImageError(true)}
           />

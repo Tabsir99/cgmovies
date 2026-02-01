@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Episode } from "@/types/media";
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,7 @@ export function EpisodePanel() {
       state.episode,
       state.totalSeasons,
       state.totalEpisodes,
-    ])
+    ]),
   );
 
   const { setEpisode, setSeason } = usePlayerStore.getState();
@@ -36,7 +35,7 @@ export function EpisodePanel() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `/api/seasons?tvId=${tmdbId}&seasonNumber=${season}`
+          `/api/seasons?tvId=${tmdbId}&seasonNumber=${season}`,
         );
         const data = await response.json();
         setEpisodes(data.episodes || []);
@@ -78,7 +77,7 @@ export function EpisodePanel() {
   };
 
   return (
-    <div className="flex flex-col h-full min-w-72 bg-zinc-900/50">
+    <div className="flex flex-col h-full bg-zinc-900/50">
       {/* Season Selector */}
       <div className="flex items-center justify-between px-3 py-2 border-b border-white/10 shrink-0">
         <Button
@@ -128,17 +127,17 @@ export function EpisodePanel() {
                       "w-full flex gap-3 p-2 rounded-lg text-left transition-colors",
                       isCurrent
                         ? "bg-white/15 ring-1 ring-white/30"
-                        : "hover:bg-white/10"
+                        : "hover:bg-white/10",
                     )}
                   >
                     {/* Thumbnail */}
                     <div className="relative shrink-0 w-24 aspect-video rounded overflow-hidden bg-white/5">
                       {stillUrl ? (
-                        <Image
+                        <img
                           src={stillUrl}
                           alt={ep.name}
-                          fill
-                          className="object-cover"
+                          loading="lazy"
+                          className="object-cover w-full h-full"
                         />
                       ) : (
                         <div className="absolute inset-0 flex items-center justify-center text-white/30 text-xs">
@@ -156,7 +155,7 @@ export function EpisodePanel() {
                       <p
                         className={cn(
                           "text-sm font-medium line-clamp-1",
-                          isCurrent ? "text-white" : "text-white/80"
+                          isCurrent ? "text-white" : "text-white/80",
                         )}
                       >
                         {ep.name}

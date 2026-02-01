@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { BaseMediaItem } from "@/types/media";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
@@ -51,11 +50,11 @@ function RecommendationCard({ item }: { item: BaseMediaItem }) {
     >
       {/* Poster */}
       <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-3 bg-white/5">
-        <Image
+        <img
           src={posterUrl}
           alt={title}
-          fill
-          className="object-cover transition-transform group-hover:scale-105"
+          loading="lazy"
+          className="object-cover transition-transform group-hover:scale-105 w-full h-full"
         />
 
         {/* Hover Overlay */}

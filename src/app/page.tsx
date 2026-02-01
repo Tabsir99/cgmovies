@@ -3,10 +3,7 @@ import HeroBanner, { HeroBannerSkeleton } from "@/components/HeroBanner";
 import ContentRow, { ContentRowSkeleton } from "@/components/ContentRow";
 import {
   getTrending,
-  getPopularMovies,
   getTopRatedMovies,
-  getNowPlayingMovies,
-  getPopularTV,
   getTopRatedTV,
   getMovieDetails,
   getTVDetails,
@@ -49,17 +46,6 @@ async function TrendingSection() {
   );
 }
 
-async function PopularMoviesSection() {
-  const movies = await getPopularMovies();
-  return (
-    <ContentRow
-      title="Popular Movies"
-      items={movies.results}
-      href={getMediaListRoute("movie")}
-    />
-  );
-}
-
 async function TopRatedMoviesSection() {
   const movies = await getTopRatedMovies();
   return (
@@ -67,28 +53,6 @@ async function TopRatedMoviesSection() {
       title="Top Rated Movies"
       items={movies.results}
       href={getMediaListRoute("movie", "top_rated")}
-    />
-  );
-}
-
-async function NowPlayingSection() {
-  const movies = await getNowPlayingMovies();
-  return (
-    <ContentRow
-      title="In Theaters"
-      items={movies.results}
-      href={getMediaListRoute("movie", "now_playing")}
-    />
-  );
-}
-
-async function PopularTVSection() {
-  const tvShows = await getPopularTV();
-  return (
-    <ContentRow
-      title="Popular TV Shows"
-      items={tvShows.results}
-      href={getMediaListRoute("tv")}
     />
   );
 }
@@ -114,18 +78,6 @@ export default function HomePage() {
       <div className="relative z-10 space-y-2 py-8 bg-background/60 backdrop-blur-sm">
         <Suspense fallback={<ContentRowSkeleton title="Trending Now" />}>
           <TrendingSection />
-        </Suspense>
-
-        <Suspense fallback={<ContentRowSkeleton title="Popular Movies" />}>
-          <PopularMoviesSection />
-        </Suspense>
-
-        <Suspense fallback={<ContentRowSkeleton title="In Theaters" />}>
-          <NowPlayingSection />
-        </Suspense>
-
-        <Suspense fallback={<ContentRowSkeleton title="Popular TV Shows" />}>
-          <PopularTVSection />
         </Suspense>
 
         <Suspense fallback={<ContentRowSkeleton title="Top Rated Movies" />}>

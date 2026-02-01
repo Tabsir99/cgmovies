@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { Play, Calendar, Clock } from "lucide-react";
 import { Episode, Season } from "@/types/media";
 import {
@@ -147,7 +146,7 @@ function EpisodeCard({
     >
       {/* Episode Still */}
       <div className="relative aspect-video">
-        <Image src={stillUrl} alt={episode.name} fill className="object-cover" />
+        <img src={stillUrl} alt={episode.name} className="object-cover w-full h-full" />
 
         {/* Play Button Overlay */}
         <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/60 transition-all opacity-0 group-hover:opacity-100">

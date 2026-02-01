@@ -16,7 +16,11 @@ interface ContentRowProps {
   href?: string;
 }
 
-const ContentRow = memo(function ContentRow({ title, items, href }: ContentRowProps) {
+const ContentRow = memo(function ContentRow({
+  title,
+  items,
+  href,
+}: ContentRowProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
@@ -65,7 +69,7 @@ const ContentRow = memo(function ContentRow({ title, items, href }: ContentRowPr
           aria-label="Scroll left"
           className={cn(
             "absolute left-2 top-1/2 -translate-y-1/2 z-10 h-9 w-9 rounded-full bg-background/90 border border-border flex items-center justify-center transition-opacity hover:bg-secondary",
-            showLeftArrow ? "opacity-100" : "opacity-0 pointer-events-none"
+            showLeftArrow ? "opacity-100" : "opacity-0 pointer-events-none",
           )}
         >
           <ChevronLeft className="h-5 w-5" />
@@ -77,12 +81,12 @@ const ContentRow = memo(function ContentRow({ title, items, href }: ContentRowPr
           onScroll={updateArrows}
           className="flex gap-3 overflow-x-auto no-scrollbar px-4 sm:px-6 lg:px-12 scroll-smooth"
         >
-          {displayItems.map((item, idx) => (
+          {displayItems.map((item) => (
             <div
               key={item.id}
               className="w-[150px] sm:w-[170px] lg:w-[185px] shrink-0"
             >
-              <MediaCard item={item} priority={idx < 5} />
+              <MediaCard item={item} />
             </div>
           ))}
         </div>
@@ -93,7 +97,7 @@ const ContentRow = memo(function ContentRow({ title, items, href }: ContentRowPr
           aria-label="Scroll right"
           className={cn(
             "absolute right-2 top-1/2 -translate-y-1/2 z-10 h-9 w-9 rounded-full bg-background/90 border border-border flex items-center justify-center transition-opacity hover:bg-secondary",
-            showRightArrow ? "opacity-100" : "opacity-0 pointer-events-none"
+            showRightArrow ? "opacity-100" : "opacity-0 pointer-events-none",
           )}
         >
           <ChevronRight className="h-5 w-5" />

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -51,7 +50,7 @@ export function HeroCard({
   const detailUrl = getMediaDetailRoute(mediaType, slug);
 
   // Get logo image URL
-  const logoUrl = getLogoUrl(item);
+  const logoUrl = getLogoUrl(item, "w500");
 
   return (
     <div
@@ -62,14 +61,17 @@ export function HeroCard({
       )}
     >
       {/* Background Image */}
-      <Image
-        src={getBackdropUrl(item.backdrop_path, "original")}
+      <img
+        src={getBackdropUrl(item.backdrop_path, "w1280")}
         alt={title}
-        fill
-        priority={isActive}
-        className="object-cover select-none"
-        sizes="100vw"
+        className="absolute inset-0 w-full h-full object-cover select-none"
         draggable={false}
+        loading="eager"
+        srcSet={`
+          ${getBackdropUrl(item.backdrop_path, "w300")} 300w,
+          ${getBackdropUrl(item.backdrop_path, "w780")} 780w,
+          ${getBackdropUrl(item.backdrop_path, "w1280")} 1280w
+        `}
       />
 
       {/* Gradients */}
@@ -83,14 +85,13 @@ export function HeroCard({
             {/* Title - Logo or Text */}
             {logoUrl ? (
               <div className="mb-3 relative w-full max-w-md h-24 sm:h-28 md:h-32 lg:h-36">
-                <Image
+                <img
                   src={logoUrl}
                   alt={title}
-                  fill
-                  priority={isActive}
-                  className="object-contain object-left drop-shadow-2xl select-none"
+                  className="object-contain object-left drop-shadow-2xl select-none w-full h-full"
                   sizes="(max-width: 768px) 300px, (max-width: 1024px) 400px, 500px"
                   draggable={false}
+                  loading="lazy"
                 />
               </div>
             ) : (
