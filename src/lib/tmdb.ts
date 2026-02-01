@@ -19,7 +19,9 @@ async function fetchTMDB<T>(
   params: Record<string, string> = {},
 ): Promise<T> {
   if (!TMDB_API_KEY) {
-    throw new Error("TMDB API key is not configured. Please set NEXT_PUBLIC_TMDB_API_KEY in your .env file.");
+    throw new Error(
+      "TMDB API key is not configured. Please set NEXT_PUBLIC_TMDB_API_KEY in your .env file.",
+    );
   }
 
   const url = new URL(`${TMDB_BASE_URL}${endpoint}`);
@@ -32,14 +34,16 @@ async function fetchTMDB<T>(
 
   try {
     const response = await fetch(url.toString(), {
-      next: { revalidate: 3600 }, // Cache for 1 hour
+      next: { revalidate: 0 }, // No cache
       headers: {
-        'Accept': 'application/json',
+        Accept: "application/json",
       },
     });
 
     if (!response.ok) {
-      throw new Error(`TMDB API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `TMDB API error: ${response.status} ${response.statusText}`,
+      );
     }
 
     return response.json();
@@ -63,48 +67,72 @@ export async function getTrending(
 export async function getPopularMovies(
   page = 1,
 ): Promise<TMDBResponse<BaseMediaItem>> {
-  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/movie/popular", {
-    page: page.toString(),
-  });
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>(
+    "/movie/popular",
+    {
+      page: page.toString(),
+    },
+  );
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "movie" as const,
+    })),
   };
 }
 
 export async function getTopRatedMovies(
   page = 1,
 ): Promise<TMDBResponse<BaseMediaItem>> {
-  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/movie/top_rated", {
-    page: page.toString(),
-  });
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>(
+    "/movie/top_rated",
+    {
+      page: page.toString(),
+    },
+  );
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "movie" as const,
+    })),
   };
 }
 
 export async function getUpcomingMovies(
   page = 1,
 ): Promise<TMDBResponse<BaseMediaItem>> {
-  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/movie/upcoming", {
-    page: page.toString(),
-  });
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>(
+    "/movie/upcoming",
+    {
+      page: page.toString(),
+    },
+  );
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "movie" as const,
+    })),
   };
 }
 
 export async function getNowPlayingMovies(
   page = 1,
 ): Promise<TMDBResponse<BaseMediaItem>> {
-  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/movie/now_playing", {
-    page: page.toString(),
-  });
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>(
+    "/movie/now_playing",
+    {
+      page: page.toString(),
+    },
+  );
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "movie" as const,
+    })),
   };
 }
 
@@ -115,49 +143,72 @@ export async function getMovieDetails(id: number): Promise<MovieDetails> {
 }
 
 // TV Shows
-export async function getPopularTV(page = 1): Promise<TMDBResponse<BaseMediaItem>> {
+export async function getPopularTV(
+  page = 1,
+): Promise<TMDBResponse<BaseMediaItem>> {
   const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/tv/popular", {
     page: page.toString(),
   });
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "tv" as const,
+    })),
   };
 }
 
 export async function getTopRatedTV(
   page = 1,
 ): Promise<TMDBResponse<BaseMediaItem>> {
-  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/tv/top_rated", {
-    page: page.toString(),
-  });
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>(
+    "/tv/top_rated",
+    {
+      page: page.toString(),
+    },
+  );
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "tv" as const,
+    })),
   };
 }
 
 export async function getOnTheAirTV(
   page = 1,
 ): Promise<TMDBResponse<BaseMediaItem>> {
-  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/tv/on_the_air", {
-    page: page.toString(),
-  });
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>(
+    "/tv/on_the_air",
+    {
+      page: page.toString(),
+    },
+  );
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "tv" as const,
+    })),
   };
 }
 
 export async function getAiringTodayTV(
   page = 1,
 ): Promise<TMDBResponse<BaseMediaItem>> {
-  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/tv/airing_today", {
-    page: page.toString(),
-  });
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>(
+    "/tv/airing_today",
+    {
+      page: page.toString(),
+    },
+  );
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "tv" as const,
+    })),
   };
 }
 
@@ -186,13 +237,19 @@ export async function searchMovies(
   query: string,
   page = 1,
 ): Promise<TMDBResponse<BaseMediaItem>> {
-  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/search/movie", {
-    query,
-    page: page.toString(),
-  });
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>(
+    "/search/movie",
+    {
+      query,
+      page: page.toString(),
+    },
+  );
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "movie" as const,
+    })),
   };
 }
 
@@ -206,7 +263,10 @@ export async function searchTV(
   });
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "tv" as const,
+    })),
   };
 }
 
@@ -215,13 +275,19 @@ export async function discoverMovies(
   params: Record<string, string> = {},
   page = 1,
 ): Promise<TMDBResponse<BaseMediaItem>> {
-  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/discover/movie", {
-    ...params,
-    page: page.toString(),
-  });
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>(
+    "/discover/movie",
+    {
+      ...params,
+      page: page.toString(),
+    },
+  );
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "movie" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "movie" as const,
+    })),
   };
 }
 
@@ -229,13 +295,19 @@ export async function discoverTV(
   params: Record<string, string> = {},
   page = 1,
 ): Promise<TMDBResponse<BaseMediaItem>> {
-  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>("/discover/tv", {
-    ...params,
-    page: page.toString(),
-  });
+  const response = await fetchTMDB<TMDBResponse<BaseMediaItem>>(
+    "/discover/tv",
+    {
+      ...params,
+      page: page.toString(),
+    },
+  );
   return {
     ...response,
-    results: response.results.map((item) => ({ ...item, media_type: "tv" as const })),
+    results: response.results.map((item) => ({
+      ...item,
+      media_type: "tv" as const,
+    })),
   };
 }
 

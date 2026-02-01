@@ -79,7 +79,7 @@ export function HeroCard({
           <div className="max-w-2xl">
             {/* Title - Logo or Text */}
             {logoUrl ? (
-              <div className="mb-6 relative w-full max-w-md h-24 sm:h-28 md:h-32 lg:h-36">
+              <div className="mb-3 relative w-full max-w-md h-24 sm:h-28 md:h-32 lg:h-36">
                 <Image
                   src={logoUrl}
                   alt={title}

@@ -12,7 +12,7 @@ import {
   getTVDetails,
 } from "@/lib/tmdb";
 import { getMediaListRoute, ROUTES } from "@/lib/constant";
-import { BaseMediaItem, MediaItem } from "@/types/media";
+import { BaseMediaItem } from "@/types/media";
 
 // Async components for each section
 async function HeroSection() {
@@ -33,7 +33,11 @@ async function HeroSection() {
     }),
   );
 
-  return <HeroBanner items={detailedItems} />;
+  return (
+    <div className="sticky top-0 left-0">
+      <HeroBanner items={detailedItems} />
+    </div>
+  );
 }
 
 async function TrendingSection() {
@@ -111,7 +115,7 @@ export default function HomePage() {
       </Suspense>
 
       {/* Content Sections */}
-      <div className="relative z-10 space-y-2 py-8">
+      <div className="relative z-10 space-y-2 py-8 bg-background/60 backdrop-blur-sm">
         <Suspense fallback={<ContentRowSkeleton title="Trending Now" />}>
           <TrendingSection />
         </Suspense>
@@ -132,9 +136,7 @@ export default function HomePage() {
           <TopRatedMoviesSection />
         </Suspense>
 
-        <Suspense
-          fallback={<ContentRowSkeleton title="Top Rated TV Shows" />}
-        >
+        <Suspense fallback={<ContentRowSkeleton title="Top Rated TV Shows" />}>
           <TopRatedTVSection />
         </Suspense>
       </div>

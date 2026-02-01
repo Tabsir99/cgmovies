@@ -80,7 +80,7 @@ export function PlayerModal() {
           "w-full h-[85dvh] max-w-full",
           "md:w-[95vw] md:h-[95dvh] md:max-w-[1400px]"
         ),
-        showCloseButton: false,
+        showCloseButton: true,
       }}
     >
       {/* Header */}
