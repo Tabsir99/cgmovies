@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   getTitle,
@@ -8,7 +10,10 @@ import {
   getCertification,
   getRuntime,
   getBackdropUrl,
+  getLogoUrl,
+  createSlug,
 } from "@/lib/tmdb";
+import { getMediaDetailRoute } from "@/lib/constant";
 import { MediaItem, TVDetails } from "@/types/media";
 import { PlayButton } from "@/components/PlayButton";
 
@@ -17,9 +22,16 @@ interface HeroCardProps {
   isActive: boolean;
   className?: string;
   mediaType?: "movie" | "tv";
+  showInfoButton?: boolean;
 }
 
-export function HeroCard({ item, isActive, className, mediaType: mediaTypeProp }: HeroCardProps) {
+export function HeroCard({
+  item,
+  isActive,
+  className,
+  mediaType: mediaTypeProp,
+  showInfoButton = true
+}: HeroCardProps) {
   const title = getTitle(item);
   const year = getReleaseYear(item);
   const mediaType = mediaTypeProp || getMediaType(item);
@@ -31,6 +43,13 @@ export function HeroCard({ item, isActive, className, mediaType: mediaTypeProp }
   // TV show specific data
   const totalSeasons = mediaType === "tv" ? (item as TVDetails).number_of_seasons || 1 : 1;
   const totalEpisodes = mediaType === "tv" ? (item as TVDetails).number_of_episodes || 1 : 1;
+
+  // For info button navigation
+  const slug = createSlug(title, item.id);
+  const detailUrl = getMediaDetailRoute(mediaType, slug);
+
+  // Get logo image URL
+  const logoUrl = getLogoUrl(item);
 
   return (
     <div
@@ -58,10 +77,23 @@ export function HeroCard({ item, isActive, className, mediaType: mediaTypeProp }
       <div className="relative z-10 flex h-full flex-col justify-end lg:pb-16">
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-16 pb-16 sm:pb-20">
           <div className="max-w-2xl">
-            {/* Title */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 drop-shadow-2xl">
-              {title}
-            </h1>
+            {/* Title - Logo or Text */}
+            {logoUrl ? (
+              <div className="mb-6 relative w-full max-w-md h-24 sm:h-28 md:h-32 lg:h-36">
+                <Image
+                  src={logoUrl}
+                  alt={title}
+                  fill
+                  priority={isActive}
+                  className="object-contain object-left drop-shadow-2xl"
+                  sizes="(max-width: 768px) 300px, (max-width: 1024px) 400px, 500px"
+                />
+              </div>
+            ) : (
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 drop-shadow-2xl">
+                {title}
+              </h1>
+            )}
 
             {/* Metadata */}
             <div className="flex flex-wrap items-center gap-3 mb-4 text-sm sm:text-base">
@@ -121,6 +153,16 @@ export function HeroCard({ item, isActive, className, mediaType: mediaTypeProp }
                 totalSeasons={totalSeasons}
                 totalEpisodes={totalEpisodes}
               />
+
+              {showInfoButton && (
+                <Link
+                  href={detailUrl}
+                  aria-label="More info"
+                  className="inline-flex items-center justify-center h-10 w-10 rounded-sm bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm transition-colors"
+                >
+                  <Info className="h-5 w-5" />
+                </Link>
+              )}
 
               <button
                 aria-label="Add to favorites"
