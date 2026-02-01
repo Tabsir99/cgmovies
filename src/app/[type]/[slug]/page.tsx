@@ -85,7 +85,7 @@ export default async function MediaDetailsPage({ params }: PageProps) {
       {/* Hero Section */}
 
       <div className="relative h-[75vh] min-h-[500px] sm:h-[80vh] lg:h-[95vh] w-full overflow-hidden">
-        <HeroCard item={item} isActive={true} />
+        <HeroCard item={item} isActive={true} mediaType={type} />
       </div>
 
       {/* Content Sections */}

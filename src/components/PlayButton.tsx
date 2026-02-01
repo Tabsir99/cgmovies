@@ -74,12 +74,18 @@ export function PlayButton({
     <button
       onClick={handleClick}
       className={cn(
-        "inline-flex items-center gap-2 px-6 py-2 sm:py-3 max-sm:px-4 max-sm:text-sm rounded-lg bg-white text-black font-bold hover:bg-white/90 transition-colors text-base",
+        "group relative inline-flex items-center gap-2 px-6 py-2.5 sm:py-3 max-sm:px-5 max-sm:text-sm rounded-lg font-bold text-base overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl",
+        "bg-linear-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-size-200 bg-pos-0 hover:bg-pos-100",
+        "text-white shadow-lg shadow-indigo-500/50 hover:shadow-indigo-500/70",
+        "before:absolute before:inset-0 before:bg-linear-to-r before:from-white/0 before:via-white/20 before:to-white/0 before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-700",
         className
       )}
+      style={{
+        backgroundSize: "200% 100%",
+      }}
     >
-      <Play className="h-5 w-5 fill-current" />
-      <span>Watch now</span>
+      <Play className="h-5 w-5 fill-current relative z-10 transition-transform group-hover:scale-110" />
+      <span className="relative z-10">Watch now</span>
     </button>
   );
 }

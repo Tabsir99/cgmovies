@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Info, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   getTitle,
@@ -17,12 +16,13 @@ interface HeroCardProps {
   item: MediaItem;
   isActive: boolean;
   className?: string;
+  mediaType?: "movie" | "tv";
 }
 
-export function HeroCard({ item, isActive, className }: HeroCardProps) {
+export function HeroCard({ item, isActive, className, mediaType: mediaTypeProp }: HeroCardProps) {
   const title = getTitle(item);
   const year = getReleaseYear(item);
-  const mediaType = getMediaType(item);
+  const mediaType = mediaTypeProp || getMediaType(item);
   const genres = getGenreNames(item.genre_ids?.slice(0, 3) || [], mediaType);
   const rating = item.vote_average?.toFixed(1);
   const runtime = getRuntime(item);
@@ -123,14 +123,7 @@ export function HeroCard({ item, isActive, className }: HeroCardProps) {
               />
 
               <button
-                aria-label="More info"
-                className="inline-flex items-center justify-center h-10 w-10 rounded-sm bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm transition-colors"
-              >
-                <Info className="h-5 w-5" />
-              </button>
-
-              <button
-                aria-label="Bookmark"
+                aria-label="Add to favorites"
                 className="inline-flex items-center justify-center h-10 w-10 rounded-sm bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm transition-colors"
               >
                 <svg
@@ -146,13 +139,6 @@ export function HeroCard({ item, isActive, className }: HeroCardProps) {
                     d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
                   />
                 </svg>
-              </button>
-
-              <button
-                aria-label="Add to list"
-                className="inline-flex items-center justify-center h-10 w-10 rounded-sm bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm transition-colors"
-              >
-                <Plus className="h-5 w-5" />
               </button>
             </div>
 
