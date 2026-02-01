@@ -13,6 +13,8 @@ import {
   TMDB_IMAGE_BASE,
   TV_GENRES,
 } from "./constant";
+import { api } from "./api";
+import { AxiosError } from "axios";
 
 async function fetchTMDB<T>(
   endpoint: string,
@@ -24,31 +26,23 @@ async function fetchTMDB<T>(
     );
   }
 
-  const url = new URL(`${TMDB_BASE_URL}${endpoint}`);
-  url.searchParams.set("api_key", TMDB_API_KEY);
-  url.searchParams.set("language", "en-US");
-
-  Object.entries(params).forEach(([key, value]) => {
-    url.searchParams.set(key, value);
-  });
-
   try {
-    const response = await fetch(url.toString(), {
-      next: { revalidate: 0 }, // No cache
-      headers: {
-        Accept: "application/json",
-      },
+    const { data } = await api.get(`${TMDB_BASE_URL}${endpoint}`, {
+      params: { api_key: TMDB_API_KEY, language: "en-US", ...params },
     });
 
-    if (!response.ok) {
-      throw new Error(
-        `TMDB API error: ${response.status} ${response.statusText}`,
-      );
-    }
-
-    return response.json();
+    return data;
   } catch (error) {
-    console.error(`Failed to fetch from TMDB ${endpoint}:`, error);
+    if (error instanceof AxiosError) {
+      console.error(`TMDB ${endpoint} failed:`, {
+        message: error.message,
+        code: error.code,
+        status: error.response?.status,
+        url: error.config?.url,
+      });
+    } else {
+      console.error(`TMDB ${endpoint} failed:`, error);
+    }
     throw error;
   }
 }

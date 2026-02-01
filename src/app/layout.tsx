@@ -6,6 +6,7 @@ import { PlayerModal } from "@/components/VideoPlayer/PlayerModal";
 import "./globals.css";
 import { MobileListener } from "@/components/ui/MobileListener";
 import SearchModal from "@/components/SearchModal";
+import { clientEnv } from "@/config/env.client";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,6 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(clientEnv.NEXT_PUBLIC_APP_URL),
   title: {
     default: "CGMovies - Stream Movies, TV Shows & Anime Free",
     template: "%s | CGMovies",
@@ -42,12 +44,14 @@ export const metadata: Metadata = {
     title: "CGMovies - Stream Movies, TV Shows & Anime Free",
     description:
       "Watch unlimited movies, TV shows, and anime for free. Stream the latest releases and classic favorites in HD quality.",
+    images: { url: "/hero.jpg" },
   },
   twitter: {
     card: "summary_large_image",
     title: "CGMovies - Stream Movies, TV Shows & Anime Free",
     description:
       "Watch unlimited movies, TV shows, and anime for free. Stream the latest releases and classic favorites in HD quality.",
+    images: { url: "/hero.jpg" },
   },
   robots: {
     index: true,

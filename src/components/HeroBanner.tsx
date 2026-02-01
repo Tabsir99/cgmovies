@@ -66,7 +66,7 @@ export default function HeroBanner({ items }: HeroBannerProps) {
   if (heroItems.length === 0) return null;
 
   return (
-    <section className="relative h-[75vh] min-h-[500px] sm:h-[80vh] lg:h-[95vh] w-full overflow-hidden">
+    <section className="relative h-[75dvh] min-h-[500px] sm:h-[80dvh] lg:h-[95dvh] w-full overflow-hidden">
       {/* Hero Cards */}
       {heroItems.map((item, index) => (
         <HeroCard key={item.id} item={item} isActive={index === currentIndex} />
