@@ -30,7 +30,7 @@ export function HeroCard({
   isActive,
   className,
   mediaType: mediaTypeProp,
-  showInfoButton = true
+  showInfoButton = true,
 }: HeroCardProps) {
   const title = getTitle(item);
   const year = getReleaseYear(item);
@@ -41,8 +41,10 @@ export function HeroCard({
   const certification = getCertification(item);
 
   // TV show specific data
-  const totalSeasons = mediaType === "tv" ? (item as TVDetails).number_of_seasons || 1 : 1;
-  const totalEpisodes = mediaType === "tv" ? (item as TVDetails).number_of_episodes || 1 : 1;
+  const totalSeasons =
+    mediaType === "tv" ? (item as TVDetails).number_of_seasons || 1 : 1;
+  const totalEpisodes =
+    mediaType === "tv" ? (item as TVDetails).number_of_episodes || 1 : 1;
 
   // For info button navigation
   const slug = createSlug(title, item.id);
@@ -65,8 +67,9 @@ export function HeroCard({
         alt={title}
         fill
         priority={isActive}
-        className="object-cover"
+        className="object-cover select-none"
         sizes="100vw"
+        draggable={false}
       />
 
       {/* Gradients */}
@@ -85,8 +88,9 @@ export function HeroCard({
                   alt={title}
                   fill
                   priority={isActive}
-                  className="object-contain object-left drop-shadow-2xl"
+                  className="object-contain object-left drop-shadow-2xl select-none"
                   sizes="(max-width: 768px) 300px, (max-width: 1024px) 400px, 500px"
+                  draggable={false}
                 />
               </div>
             ) : (

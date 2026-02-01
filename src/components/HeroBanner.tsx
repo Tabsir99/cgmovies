@@ -34,6 +34,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HeroCard } from "./HeroCard";
 import { MediaItem } from "@/types/media";
+import { Button } from "./ui/button";
 
 const HERO_ITEM_LIMIT = 5;
 const AUTO_ADVANCE_MS = 5000;
@@ -72,21 +73,25 @@ export default function HeroBanner({ items }: HeroBannerProps) {
       ))}
 
       {/* Navigation Buttons */}
-      <button
+      <Button
         onClick={goToPrev}
         aria-label="Previous slide"
-        className="absolute left-4 sm:left-6 bottom-0 z-20 h-12 w-12 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition-colors"
+        className="absolute left-4 sm:left-6 bottom-0 z-20"
+        variant="ghost"
+        size="icon"
       >
-        <ChevronLeft className="h-6 w-6" />
-      </button>
+        <ChevronLeft className="size-7" />
+      </Button>
 
-      <button
+      <Button
         onClick={goToNext}
         aria-label="Next slide"
-        className="absolute right-4 sm:right-6 bottom-0 z-20 h-12 w-12 rounded-full bg-black/30 hover:bg-black/50 text-white flex items-center justify-center backdrop-blur-sm transition-colors"
+        className="absolute right-4 sm:right-6 bottom-0 z-20"
+        variant="ghost"
+        size="icon"
       >
-        <ChevronRight className="h-6 w-6" />
-      </button>
+        <ChevronRight className="size-7" />
+      </Button>
 
       {/* Dots Indicator */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-1.5">

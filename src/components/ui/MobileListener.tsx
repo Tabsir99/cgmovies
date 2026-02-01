@@ -1,5 +1,5 @@
 "use client";
-import { usePlayerStore } from "@/store/playerStore";
+import { useUIStore } from "@/store/uiStore";
 import { useEffect } from "react";
 
 export function MobileListener() {
@@ -7,10 +7,10 @@ export function MobileListener() {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
 
     const handleChange = (e: MediaQueryListEvent) => {
-      usePlayerStore.setState({ isMobile: e.matches });
+      useUIStore.setState({ isMobile: e.matches });
     };
 
-    usePlayerStore.setState({ isMobile: mediaQuery.matches });
+    useUIStore.setState({ isMobile: mediaQuery.matches });
 
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);

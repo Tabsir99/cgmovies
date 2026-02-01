@@ -46,7 +46,7 @@ export function PlayButton({
         onClick={handleClick}
         className={cn(
           "inline-flex items-center justify-center h-12 w-12 rounded-full bg-white text-black hover:bg-white/90 transition-all hover:scale-110",
-          className
+          className,
         )}
         aria-label={`Play ${title}`}
       >
@@ -61,7 +61,7 @@ export function PlayButton({
         onClick={handleClick}
         className={cn(
           "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white text-black font-semibold hover:bg-white/90 transition-colors text-sm",
-          className
+          className,
         )}
       >
         <Play className="h-4 w-4 fill-current" />
@@ -74,11 +74,11 @@ export function PlayButton({
     <button
       onClick={handleClick}
       className={cn(
-        "group relative inline-flex items-center gap-2 px-6 py-2.5 sm:py-3 max-sm:px-5 max-sm:text-sm rounded-lg font-bold text-base overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl",
+        "group relative inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-bold text-base overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl",
         "bg-linear-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-size-200 bg-pos-0 hover:bg-pos-100",
         "text-white shadow-lg shadow-indigo-500/50 hover:shadow-indigo-500/70",
         "before:absolute before:inset-0 before:bg-linear-to-r before:from-white/0 before:via-white/20 before:to-white/0 before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-700",
-        className
+        className,
       )}
       style={{
         backgroundSize: "200% 100%",

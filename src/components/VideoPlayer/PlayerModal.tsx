@@ -21,7 +21,7 @@ export function PlayerModal() {
         state.season,
         state.episode,
         state.selectedServer,
-      ])
+      ]),
     );
 
   const { close, nextEpisode, previousEpisode } = usePlayerStore.getState();
@@ -46,7 +46,7 @@ export function PlayerModal() {
         previousEpisode();
       }
     },
-    [isOpen, mediaType, nextEpisode, previousEpisode]
+    [isOpen, mediaType, nextEpisode, previousEpisode],
   );
 
   useEffect(() => {
@@ -75,11 +75,6 @@ export function PlayerModal() {
       open={isOpen}
       onOpenChange={close}
       contentProps={{
-        className: cn(
-          "flex flex-col p-0 gap-0 border-white/10 bg-zinc-950 overflow-hidden",
-          "w-full h-[85dvh] max-w-full",
-          "md:w-[95vw] md:h-[95dvh] md:max-w-[1400px]"
-        ),
         showCloseButton: true,
       }}
     >
@@ -92,19 +87,13 @@ export function PlayerModal() {
       </div>
 
       {/* Main content area */}
-      <div
-        className={cn(
-          "flex-1 min-h-0 flex",
-          "flex-col",
-          "md:flex-row"
-        )}
-      >
+      <div className={cn("flex-1 min-h-0 flex", "flex-col", "md:flex-row")}>
         {/* Video container */}
         <div
           className={cn(
-            "relative bg-black",
+            "relative bg-black ",
             "aspect-video w-full shrink-0",
-            "md:aspect-auto md:flex-1 md:min-w-0"
+            "md:aspect-auto md:flex-1 md:min-w-0",
           )}
         >
           {isLoading && (
@@ -142,7 +131,7 @@ export function PlayerModal() {
             className={cn(
               "border-white/10 overflow-hidden",
               "flex-1 min-h-0 border-t",
-              "md:flex-none md:h-full md:w-[280px] md:border-t-0 md:border-l"
+              "md:flex-none md:h-full md:w-[280px] md:border-t-0 md:border-l",
             )}
           >
             <EpisodePanel />
