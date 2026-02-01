@@ -18,23 +18,35 @@ async function fetchTMDB<T>(
   endpoint: string,
   params: Record<string, string> = {},
 ): Promise<T> {
+  if (!TMDB_API_KEY) {
+    throw new Error("TMDB API key is not configured. Please set NEXT_PUBLIC_TMDB_API_KEY in your .env file.");
+  }
+
   const url = new URL(`${TMDB_BASE_URL}${endpoint}`);
-  url.searchParams.set("api_key", TMDB_API_KEY || "");
+  url.searchParams.set("api_key", TMDB_API_KEY);
   url.searchParams.set("language", "en-US");
 
   Object.entries(params).forEach(([key, value]) => {
     url.searchParams.set(key, value);
   });
 
-  const response = await fetch(url.toString(), {
-    next: { revalidate: 3600 }, // Cache for 1 hour
-  });
+  try {
+    const response = await fetch(url.toString(), {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
 
-  if (!response.ok) {
-    throw new Error(`TMDB API error: ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`TMDB API error: ${response.status} ${response.statusText}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error(`Failed to fetch from TMDB ${endpoint}:`, error);
+    throw error;
   }
-
-  return response.json();
 }
 
 // Trending
@@ -98,7 +110,7 @@ export async function getNowPlayingMovies(
 
 export async function getMovieDetails(id: number): Promise<MovieDetails> {
   return fetchTMDB(`/movie/${id}`, {
-    append_to_response: "credits,videos,recommendations,release_dates",
+    append_to_response: "credits,videos,recommendations,release_dates,images",
   });
 }
 
@@ -151,7 +163,7 @@ export async function getAiringTodayTV(
 
 export async function getTVDetails(id: number): Promise<TVDetails> {
   return fetchTMDB(`/tv/${id}`, {
-    append_to_response: "credits,videos,recommendations,content_ratings",
+    append_to_response: "credits,videos,recommendations,content_ratings,images",
   });
 }
 
@@ -249,6 +261,19 @@ export function getBackdropUrl(
 ): string {
   if (!path) return "/placeholder-backdrop.svg";
   return `${TMDB_IMAGE_BASE}/${size}${path}`;
+}
+
+export function getLogoUrl(
+  item: MediaItem,
+  size: "w92" | "w154" | "w185" | "w300" | "w500" | "original" = "w500",
+): string | null {
+  if (!item.images?.logos || item.images.logos.length === 0) return null;
+
+  // Find English logo first, otherwise use the first available
+  const englishLogo = item.images.logos.find((logo) => logo.iso_639_1 === "en");
+  const logo = englishLogo || item.images.logos[0];
+
+  return `${TMDB_IMAGE_BASE}/${size}${logo.file_path}`;
 }
 
 export function getTitle(item: BaseMediaItem | MediaItem): string {

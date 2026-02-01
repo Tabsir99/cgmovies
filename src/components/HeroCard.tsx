@@ -1,36 +1,55 @@
-import Link from "next/link";
 import Image from "next/image";
-import { Play, Info, Plus } from "lucide-react";
+import Link from "next/link";
+import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   getTitle,
   getReleaseYear,
   getMediaType,
-  createSlug,
   getGenreNames,
   getCertification,
   getRuntime,
   getBackdropUrl,
+  getLogoUrl,
+  createSlug,
 } from "@/lib/tmdb";
 import { getMediaDetailRoute } from "@/lib/constant";
 import { MediaItem, TVDetails } from "@/types/media";
+import { PlayButton } from "@/components/PlayButton";
 
 interface HeroCardProps {
   item: MediaItem;
   isActive: boolean;
   className?: string;
+  mediaType?: "movie" | "tv";
+  showInfoButton?: boolean;
 }
 
-export function HeroCard({ item, isActive, className }: HeroCardProps) {
+export function HeroCard({
+  item,
+  isActive,
+  className,
+  mediaType: mediaTypeProp,
+  showInfoButton = true
+}: HeroCardProps) {
   const title = getTitle(item);
   const year = getReleaseYear(item);
-  const mediaType = getMediaType(item);
-  const slug = createSlug(title, item.id);
-  const href = getMediaDetailRoute(mediaType, slug);
+  const mediaType = mediaTypeProp || getMediaType(item);
   const genres = getGenreNames(item.genre_ids?.slice(0, 3) || [], mediaType);
   const rating = item.vote_average?.toFixed(1);
   const runtime = getRuntime(item);
   const certification = getCertification(item);
+
+  // TV show specific data
+  const totalSeasons = mediaType === "tv" ? (item as TVDetails).number_of_seasons || 1 : 1;
+  const totalEpisodes = mediaType === "tv" ? (item as TVDetails).number_of_episodes || 1 : 1;
+
+  // For info button navigation
+  const slug = createSlug(title, item.id);
+  const detailUrl = getMediaDetailRoute(mediaType, slug);
+
+  // Get logo image URL
+  const logoUrl = getLogoUrl(item);
 
   return (
     <div
@@ -58,10 +77,23 @@ export function HeroCard({ item, isActive, className }: HeroCardProps) {
       <div className="relative z-10 flex h-full flex-col justify-end lg:pb-16">
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-16 pb-16 sm:pb-20">
           <div className="max-w-2xl">
-            {/* Title */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 drop-shadow-2xl">
-              {title}
-            </h1>
+            {/* Title - Logo or Text */}
+            {logoUrl ? (
+              <div className="mb-6 relative w-full max-w-md h-24 sm:h-28 md:h-32 lg:h-36">
+                <Image
+                  src={logoUrl}
+                  alt={title}
+                  fill
+                  priority={isActive}
+                  className="object-contain object-left drop-shadow-2xl"
+                  sizes="(max-width: 768px) 300px, (max-width: 1024px) 400px, 500px"
+                />
+              </div>
+            ) : (
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 drop-shadow-2xl">
+                {title}
+              </h1>
+            )}
 
             {/* Metadata */}
             <div className="flex flex-wrap items-center gap-3 mb-4 text-sm sm:text-base">
@@ -114,23 +146,26 @@ export function HeroCard({ item, isActive, className }: HeroCardProps) {
 
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-2 mb-4">
-              <Link
-                href={href}
-                className="inline-flex items-center gap-2 px-6 py-2 sm:py-3 max-sm:px-4 max-sm:text-sm rounded-lg bg-white text-black font-bold hover:bg-white/90 transition-colors text-base"
-              >
-                <Play className="h-5 w-5 fill-current" />
-                Watch now
-              </Link>
+              <PlayButton
+                mediaType={mediaType}
+                tmdbId={item.id}
+                title={title}
+                totalSeasons={totalSeasons}
+                totalEpisodes={totalEpisodes}
+              />
+
+              {showInfoButton && (
+                <Link
+                  href={detailUrl}
+                  aria-label="More info"
+                  className="inline-flex items-center justify-center h-10 w-10 rounded-sm bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm transition-colors"
+                >
+                  <Info className="h-5 w-5" />
+                </Link>
+              )}
 
               <button
-                aria-label="More info"
-                className="inline-flex items-center justify-center h-10 w-10 rounded-sm bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm transition-colors"
-              >
-                <Info className="h-5 w-5" />
-              </button>
-
-              <button
-                aria-label="Bookmark"
+                aria-label="Add to favorites"
                 className="inline-flex items-center justify-center h-10 w-10 rounded-sm bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm transition-colors"
               >
                 <svg
@@ -146,13 +181,6 @@ export function HeroCard({ item, isActive, className }: HeroCardProps) {
                     d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
                   />
                 </svg>
-              </button>
-
-              <button
-                aria-label="Add to list"
-                className="inline-flex items-center justify-center h-10 w-10 rounded-sm bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm transition-colors"
-              >
-                <Plus className="h-5 w-5" />
               </button>
             </div>
 

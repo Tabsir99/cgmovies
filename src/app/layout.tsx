@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { PlayerModal } from "@/components/VideoPlayer/PlayerModal";
 import "./globals.css";
+import { MobileListener } from "@/components/ui/MobileListener";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,6 +76,8 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
         </div>
+        <PlayerModal />
+        <MobileListener />
       </body>
     </html>
   );

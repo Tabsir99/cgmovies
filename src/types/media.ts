@@ -66,6 +66,7 @@ export interface MovieDetails extends BaseMediaItem {
   release_dates?: {
     results: ReleaseDatesResult[];
   };
+  images?: Images;
 }
 
 export interface TVDetails extends BaseMediaItem {
@@ -92,6 +93,7 @@ export interface TVDetails extends BaseMediaItem {
   content_ratings?: {
     results: ContentRating[];
   };
+  images?: Images;
 }
 
 export type MediaItem = MovieDetails | TVDetails;
@@ -145,6 +147,32 @@ export interface Video {
   site: string;
   type: string;
   official: boolean;
+}
+
+export interface Logo {
+  aspect_ratio: number;
+  file_path: string;
+  height: number;
+  iso_639_1: string | null;
+  vote_average: number;
+  vote_count: number;
+  width: number;
+}
+
+export interface Images {
+  backdrops: Array<{
+    aspect_ratio: number;
+    file_path: string;
+    height: number;
+    width: number;
+  }>;
+  logos: Logo[];
+  posters: Array<{
+    aspect_ratio: number;
+    file_path: string;
+    height: number;
+    width: number;
+  }>;
 }
 
 export interface TMDBResponse<T> {

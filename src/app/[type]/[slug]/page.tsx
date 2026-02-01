@@ -85,7 +85,7 @@ export default async function MediaDetailsPage({ params }: PageProps) {
       {/* Hero Section */}
 
       <div className="relative h-[75vh] min-h-[500px] sm:h-[80vh] lg:h-[95vh] w-full overflow-hidden">
-        <HeroCard item={item} isActive={true} />
+        <HeroCard item={item} isActive={true} mediaType={type} showInfoButton={false} />
       </div>
 
       {/* Content Sections */}
@@ -96,6 +96,7 @@ export default async function MediaDetailsPage({ params }: PageProps) {
             <EpisodesSection
               seasons={(item as TVDetails).seasons}
               tvId={mediaId}
+              tvTitle={getTitle(item)}
               initialSeasonNumber={1}
             />
             <Separator className="my-8 bg-white/10" />
